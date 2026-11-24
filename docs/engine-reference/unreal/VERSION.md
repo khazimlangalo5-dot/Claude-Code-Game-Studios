@@ -2,11 +2,11 @@
 
 | Field | Value |
 |-------|-------|
-| **Engine Version** | Unreal Engine 5.8 |
+| **Engine Version** | Unreal Engine 5.8.4 |
 | **Installed at pin time** | NOT DETERMINED — `/setup-engine` §3 probes the installed editor and records the result here. |
-| **Release Date** | June 2026 (5.8.0); latest hotfix 5.8.3, September 2026 |
-| **Project Pinned** | 2026-10-17 |
-| **Last Docs Verified** | 2026-10-18 (Iris status in `modules/networking.md`, MegaLights in `modules/rendering.md`); 2026-10-17 (release timeline, 5.8 release notes, and the 5.8 changes recorded in this directory); 2026-02-13 (rest of directory, written against 5.7) |
+| **Release Date** | June 2026 (5.8.0); latest hotfix 5.8.4, October 20, 2026 |
+| **Project Pinned** | 2026-11-24 |
+| **Last Docs Verified** | 2026-11-24 (5.8.4 hotfix and UE 5.8 Android rendering/support documentation) |
 | **LLM Knowledge Cutoff** | May 2025 |
 
 ## Knowledge Gap Warning
@@ -34,6 +34,8 @@ version-qualified claim** — `NOT DETERMINED` means the gap is unknown, not abs
 | 5.6 | Jun 2025 | MEDIUM | Large open worlds at 60 Hz (Hardware Ray Tracing Lumen performance, Fast Geometry Streaming plugin, Experimental), MetaHuman Creator in the engine, in-editor animation and rigging tools |
 | 5.7 | Nov 2025 | HIGH | PCG production-ready, Substrate production-ready (on by default for new projects), MegaLights Beta, in-editor AI Assistant (Experimental) |
 | 5.8 | Jun 2026 | HIGH | MegaLights production-ready, Iris replication production-ready, Mesh Terrain (Experimental), Lumen Lite (Beta), Enhanced Input and Common UI unified, MCP Server plugin (Experimental), C++20 minimum, WASAPI default audio backend on Windows, multi-pass deferred default on mobile |
+
+| 5.8.4 | Oct 20, 2026 | HIGH | Hotfix: editor and Blueprint stability, UAT, Landscape, Modeling, Media, MetaHuman, Movie Render Pipeline and rendering fixes |
 
 ## Unreal Engine 5 Releases Before the Cutoff
 
@@ -96,3 +98,24 @@ from the same threads and from the 5.7 and 5.8 release notes (Verified Sources b
 - UE 5.5 blog: https://www.unrealengine.com/en-US/blog/unreal-engine-5-5-is-now-available
 - Migration guides: https://dev.epicgames.com/documentation/en-us/unreal-engine/upgrading-projects-to-newer-versions-of-unreal-engine
 - Engine source, read from a UE 5.8.1 install on 2026-10-17: `Engine/Source/Programs/UnrealBuildTool/System/CppCompileEnvironment.cs` (C++ standard), `Engine/Source/Runtime/RenderCore/Private/RenderUtils.cpp` (Substrate defaults)
+
+
+## Android Rendering Strategy (UE 5.8)
+
+- Initial baseline: Mobile Forward. Epic documents it as the default mobile shading mode and the fastest baseline with compatibility across the widest variety of hardware. This is a cautious starting point for a project that must scale across Android devices; it is not a final rendering decision.
+- Profile Mobile Deferred as a possible higher-tier path. Epic says deferred shading can improve performance and memory use for complex dynamic lighting on tile-based mobile GPUs, while requiring relatively higher-end hardware and carrying Mali/Vulkan attachment limitations. Test representative devices before choosing it.
+- Do not enable the Android desktop renderer for the baseline. Epic classifies the Android Vulkan desktop renderer as Experimental and notes its high resource cost. Lumen on Android requires this renderer and Vulkan SM5 on supported high-end device profiles; Epic does not recommend shipping that experimental combination.
+- Maintain device profiles and quality tiers; profile GPU, CPU, memory, thermal behaviour, frame pacing and battery use on real hardware. The Blackview Tab 60 WiFi is a test device only, not the project's declared minimum or maximum specification.
+
+## UE 5.8.4 Hotfix (2026-10-20)
+
+Epic's official hotfix notes list editor and Blueprint stability fixes, AutomationTool output fixes, Landscape/Modeling/Media/MetaHuman/Movie Render Pipeline fixes, and rendering fixes including a Lumen SceneCapture2D regression. The notes reviewed list iOS/tvOS/iPadOS platform changes; do not infer an Android-specific fix from them.
+
+## Verified Sources (2026-11-24)
+
+- UE 5.8.4 hotfix release notes: https://forums.unrealengine.com/t/5-8-4-hotfix-released/2842775
+- UE 5.8 Mobile Rendering and Shading Modes: https://dev.epicgames.com/documentation/en-us/unreal-engine/mobile-rendering-and-shading-modes-for-unreal-engine
+- UE 5.8 Mobile Deferred Shading: https://dev.epicgames.com/documentation/unreal-engine/using-the-mobile-deferred-shading-mode-in-unreal-engine
+- UE 5.8 Android desktop renderer: https://dev.epicgames.com/documentation/unreal-engine/using-the-desktop-renderer-on-mobile-in-unreal-engine?lang=en-US
+- UE 5.8 Lumen on Mobile: https://dev.epicgames.com/documentation/en-us/unreal-engine/using-lumen-global-illumination-on-mobile-in-unreal-engine
+- UE 5.8 Android Support: https://dev.epicgames.com/documentation/unreal-engine/android-support-for-unreal-engine?lang=en-US

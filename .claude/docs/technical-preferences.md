@@ -10,42 +10,42 @@
 
 ## Engine & Language
 
-- **Engine**: [TO BE CONFIGURED — run /setup-engine]
-- **Language**: [TO BE CONFIGURED]
-- **Rendering**: [TO BE CONFIGURED]
-- **Physics**: [TO BE CONFIGURED]
+- **Engine**: Unreal Engine 5.8.4
+- **Language**: C++ (primary); Blueprints for gameplay prototyping and tuning
+- **Rendering**: Mobile Forward (initial broad-compatibility baseline; validate against device matrix before finalizing)
+- **Physics**: Chaos
 
 ## Input & Platform
 
 <!-- Written by /setup-engine. Read by /ux-design, /ux-review, /test-setup, /team-ui, and /dev-story -->
 <!-- to scope interaction specs, test helpers, and implementation to the correct input methods. -->
 
-- **Target Platforms**: [TO BE CONFIGURED — e.g., PC, Console, Mobile, Web]
-- **Input Methods**: [TO BE CONFIGURED — e.g., Keyboard/Mouse, Gamepad, Touch, Mixed]
-- **Primary Input**: [TO BE CONFIGURED — the dominant input for this game]
-- **Gamepad Support**: [TO BE CONFIGURED — Full / Partial / None]
-- **Touch Support**: [TO BE CONFIGURED — Full / Partial / None]
-- **Platform Notes**: [TO BE CONFIGURED — any platform-specific UX constraints]
+- **Target Platforms**: Android
+- **Input Methods**: Touch
+- **Primary Input**: Touch
+- **Gamepad Support**: None (initial release target)
+- **Touch Support**: Full
+- **Platform Notes**: The Blackview Tab 60 WiFi is a test device, not the minimum or maximum supported device. Build scalable quality tiers for a range of Android phones and tablets. Validate GPU feature support, memory, thermals, frame pacing, battery use, screen aspect ratios, and touch layouts on physical devices.
 
 ## Naming Conventions
 
-- **Classes**: [TO BE CONFIGURED]
-- **Variables**: [TO BE CONFIGURED]
-- **Signals/Events**: [TO BE CONFIGURED]
-- **Files**: [TO BE CONFIGURED]
-- **Scenes/Prefabs**: [TO BE CONFIGURED]
-- **Constants**: [TO BE CONFIGURED]
+- **Classes**: Prefixed PascalCase (AActor, UObject, FStruct conventions)
+- **Variables**: PascalCase
+- **Signals/Events**: PascalCase On<Event> delegates/events
+- **Files**: PascalCase matching class without type prefix
+- **Scenes/Prefabs**: PascalCase Levels/Maps
+- **Constants**: UPPER_SNAKE_CASE (UNVERIFIED — confirm against pinned Unreal coding standard)
 
 ## Performance Budgets
 
-- **Target Framerate**: [TO BE CONFIGURED]
-- **Frame Budget**: [TO BE CONFIGURED]
-- **Draw Calls**: [TO BE CONFIGURED]
-- **Memory Ceiling**: [TO BE CONFIGURED]
+- **Target Framerate**: [TO BE CONFIGURED — define low/mid/high Android tiers after profiling]
+- **Frame Budget**: [TO BE CONFIGURED — depends on selected frame-rate tier]
+- **Draw Calls**: [TO BE CONFIGURED — measure on representative Android devices]
+- **Memory Ceiling**: [TO BE CONFIGURED — set per Android device tier]
 
 ## Testing
 
-- **Framework**: [TO BE CONFIGURED]
+- **Framework**: [TO BE CONFIGURED — Unreal Automation Spec suggested; confirm before adding test infrastructure]
 - **Minimum Coverage**: [TO BE CONFIGURED]
 - **Required Tests**: Balance formulas, gameplay systems, networking (if applicable)
 
@@ -70,12 +70,12 @@
 <!-- Read by /code-review, /architecture-decision, /architecture-review, and team skills -->
 <!-- to know which specialist to spawn for engine-specific validation. -->
 
-- **Primary**: [TO BE CONFIGURED — run /setup-engine]
-- **Language/Code Specialist**: [TO BE CONFIGURED]
-- **Shader Specialist**: [TO BE CONFIGURED]
-- **UI Specialist**: [TO BE CONFIGURED]
-- **Additional Specialists**: [TO BE CONFIGURED]
-- **Routing Notes**: [TO BE CONFIGURED]
+- **Primary**: unreal-specialist
+- **Language/Code Specialist**: unreal-specialist (C++); ue-blueprint-specialist (Blueprint graphs)
+- **Shader Specialist**: unreal-specialist (materials and shaders)
+- **UI Specialist**: ue-umg-specialist (UMG, CommonUI, touch input routing)
+- **Additional Specialists**: ue-gas-specialist (abilities/attributes), ue-replication-specialist (networking if multiplayer is introduced)
+- **Routing Notes**: Primary handles C++ architecture; Blueprint specialist handles graph design; GAS handles abilities and attributes; replication specialist only if multiplayer is added; UMG specialist handles touch-first UI.
 
 ### File Extension Routing
 
@@ -84,9 +84,10 @@
 
 | File Extension / Type | Specialist to Spawn |
 |-----------------------|---------------------|
-| Game code (primary language) | [TO BE CONFIGURED] |
-| Shader / material files | [TO BE CONFIGURED] |
-| UI / screen files | [TO BE CONFIGURED] |
-| Scene / prefab / level files | [TO BE CONFIGURED] |
-| Native extension / plugin files | [TO BE CONFIGURED] |
+| Game code (.cpp, .h files) | unreal-specialist |
+| Shader / material files (.usf, .ush, Material assets) | unreal-specialist |
+| UI / screen files (.umg, UMG Widget Blueprints) | ue-umg-specialist |
+| Scene / level files (.umap, .uasset) | unreal-specialist |
+| Native extension / plugin files (.uplugin, modules) | unreal-specialist |
+| Blueprint graphs (.uasset BP classes) | ue-blueprint-specialist |
 | General architecture review | Primary |
